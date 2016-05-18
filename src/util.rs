@@ -1,4 +1,4 @@
-// Utilities for collections.
+// Utility functions.
 //
 // Copyright (c) 2016 by William R. Fraser
 //
@@ -75,4 +75,12 @@ fn test_group_by() {
     assert_eq!(by_tens.get(&1).unwrap(), &vec![&10, &11]);
     assert_eq!(by_tens.get(&2).unwrap(), &vec![&20]);
     assert!(by_tens.get(&3).is_none());
+}
+
+pub fn factorial(n: i8) -> i8 {
+    let mut total = 1;
+    for i in 2 .. n + 1 {
+        total *= i;
+    }
+    total
 }
