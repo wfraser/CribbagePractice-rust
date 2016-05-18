@@ -77,10 +77,37 @@ fn test_group_by() {
     assert!(by_tens.get(&3).is_none());
 }
 
-pub fn factorial(n: i8) -> i8 {
+pub fn binomial_coefficient(n: i8, m: i8) -> i8 {
+    if n < m {
+        return 0;
+    }
+
+    // n! / (m! * (n - m)!)
+    let mut a = 1;
+    let mut b = 1;
+    let mut c = 1;
     let mut total = 1;
     for i in 2 .. n + 1 {
         total *= i;
+        if i == n {
+            a = total;
+        }
+        if i == m {
+            b = total;
+        }
+        if i == (n - m) {
+            c = total;
+        }
     }
-    total
+    a / (b * c)
+}
+
+#[test]
+fn test_binomial_coefficient() {
+    assert_eq!(binomial_coefficient(0, 2), 0);
+    assert_eq!(binomial_coefficient(1, 2), 0);
+    assert_eq!(binomial_coefficient(2, 2), 1);
+    assert_eq!(binomial_coefficient(3, 2), 3);
+    assert_eq!(binomial_coefficient(4, 2), 6);
+    assert_eq!(binomial_coefficient(5, 2), 10);
 }
