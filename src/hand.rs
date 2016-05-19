@@ -41,7 +41,6 @@ impl<'a> Hand<'a> {
             if group.len() > 1 {
                 combos.push(Combo {
                     cards: group.clone(),
-                    //score: 2 * (util::factorial(group.len() as i8) / 4), // n take 2 = n! / (2!)^2
                     score: 2 * util::binomial_coefficient(group.len() as i8, 2),
                     text: format!("{} of a kind", group.len()),
                 });

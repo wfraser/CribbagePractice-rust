@@ -7,18 +7,21 @@ use std::cell::RefCell;
 use std::io::{self, Write};
 use std::str::FromStr;
 
+extern crate pancurses;
 extern crate rand;
 
 mod card;
 mod combo;
+mod curses_ui;
 mod deck;
 mod game;
 mod hand;
 mod ui;
 mod util;
 
-use card::Card;
+use card::{Card, Suit};
 use combo::Combo;
+use curses_ui::CursesUI;
 use deck::Deck;
 use game::Game;
 use hand::Hand;
@@ -153,6 +156,8 @@ fn main() {
         player_score: 0,
         cpu_score: 0
     });
+
+    let curses_ui = CursesUI::new(5);
 
     let mut game = Game::new(&ui);
 
