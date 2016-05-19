@@ -6,6 +6,7 @@ authors = ["William R. Fraser <wfraser@codewise.org>"]
 [dependencies]
 pancurses = "0.3"
 rand = "0.3"
+libc = "*"
 
 [target.x86_64-pc-windows-msvc.dependencies]
 kernel32-sys = "*"

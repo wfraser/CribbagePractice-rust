@@ -13,7 +13,7 @@ pub struct CursesUI {
 }
 
 const CARD_HEIGHT: usize = 11;
-const CARD_WIDTH: usize = 13;
+const CARD_WIDTH: usize = 14;
 
 impl CursesUI {
     #[cfg(windows)]
@@ -32,11 +32,17 @@ impl CursesUI {
     }
 
     pub fn new(hand_size: usize) -> CursesUI {
-        //Self::hide_win32_console();
+        extern crate libc;
+        use std::mem;
+        unsafe { libc::setlocale(libc::LC_ALL, mem::transmute(b"\0")) };
+
+        Self::hide_win32_console();
         let main_window = initscr();
-        start_color();
-        main_window.nodelay(false);
-        cbreak();
+
+        curs_set(0); // hide the cursor
+        start_color(); // set up color mode
+        main_window.nodelay(false); // use blocking getch
+        cbreak(); // raw input
 
         let mut card_windows: Vec<Window> = Vec::with_capacity(hand_size);
 
@@ -45,11 +51,8 @@ impl CursesUI {
                                          CARD_WIDTH as i32,
                                          0,
                                          (i * (CARD_WIDTH + 1)) as i32).unwrap();
-            win.bkgd(i as chtype);
             card_windows.push(win);
         }
-
-        println!("{:?}", main_window.getch());
 
         CursesUI {
             main_window: main_window,
@@ -152,29 +155,29 @@ impl CursesUI {
                                                "|     X     |\n",
                                                "|   X   X   |")).unwrap(),
 
-            11 =>   writeln!(&mut out, concat!("|       XXX |\n",
-                                               "|        XX |\n",
-                                               "|        XX |\n",
-                                               "|        XX |\n",
-                                               "|        XX |\n",
-                                               "| XX     XX |\n",
-                                               "| XXXXXXXXX |")).unwrap(),
+            11 =>   writeln!(&mut out, concat!("|      XXX  |\n",
+                                               "|       XX  |\n",
+                                               "|       XX  |\n",
+                                               "|       XX  |\n",
+                                               "|       XX  |\n",
+                                               "|  XX   XX  |\n",
+                                               "|  XXXXXXX  |")).unwrap(),
 
             12 =>   writeln!(&mut out, concat!("|  XXXXXXX  |\n",
                                                "| XX     XX |\n",
                                                "| XX     XX |\n",
                                                "| XX     XX |\n",
                                                "| XX  XX XX |\n",
-                                               "| XX   X XX |\n",
+                                               "| XX   XXXX |\n",
                                                "|  XXXXXXX  |")).unwrap(),
 
-            13 =>   writeln!(&mut out, concat!("| XX     XX |\n",
-                                               "| XX   XX   |\n",
-                                               "| XX XX     |\n",
-                                               "| XXXX      |\n",
-                                               "| XX XX     |\n",
-                                               "| XX   XX   |\n",
-                                               "| XX     XX |")).unwrap(),
+            13 =>   writeln!(&mut out, concat!("|  XX   XX  |\n",
+                                               "|  XX  XX   |\n",
+                                               "|  XX XX    |\n",
+                                               "|  XXX      |\n",
+                                               "|  XX XX    |\n",
+                                               "|  XX  XX   |\n",
+                                               "|  XX   XX  |")).unwrap(),
             _ => unreachable!(),
         };
 
@@ -187,8 +190,7 @@ impl CursesUI {
             Suit::Hearts    => "♥",
             Suit::Diamonds  => "♦",
         };
-        out.replace('X', suit);
-        out
+        out.replace('X', suit)
     }
 }
 
@@ -198,10 +200,49 @@ impl Drop for CursesUI {
     }
 }
 
-/*
 impl UserInterface for CursesUI {
     fn display_hand(&mut self, hand: &Hand) {
+        for (i, card) in hand.cards.iter().enumerate() {
+            let rendered = Self::render_card(card);
+            self.card_windows.get_mut(i).unwrap().addstr(&rendered);
+        }
+    }
 
+    fn display_missed_combos(&mut self, combos: &[Combo]) {
+        // TODO
+    }
+
+    fn display_win_message(&mut self, score: i32) {
+        // TODO
+    }
+
+    fn display_lose_message(&mut self, score: i32) {
+        // TODO
+    }
+
+    fn display_bad_guess_wrong_score(&mut self, actual_combo: &Combo) {
+        // TODO
+    }
+
+    fn display_bad_guess_invalid_combo(&mut self) {
+        // TODO
+    }
+
+    fn display_correct_guess(&mut self, combo: &Combo) {
+        // TODO
+    }
+
+    fn add_score_player(&mut self, score: i32) {
+        // TODO
+    }
+
+    fn add_score_cpu(&mut self, score: i32) {
+        // TODO
+    }
+
+    fn get_guess(&mut self, hand: &Hand) -> Option<Guess> {
+        // TODO
+        self.main_window.getch();
+        None
     }
 }
-*/

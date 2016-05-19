@@ -19,7 +19,7 @@ mod hand;
 mod ui;
 mod util;
 
-use card::{Card, Suit};
+use card::Card;
 use combo::Combo;
 use curses_ui::CursesUI;
 use deck::Deck;
@@ -152,14 +152,16 @@ impl UserInterface for ConsoleUI {
 }
 
 fn main() {
+    /*
     let ui = RefCell::new(ConsoleUI {
         player_score: 0,
         cpu_score: 0
     });
+    */
 
-    let curses_ui = CursesUI::new(5);
+    let curses_ui = RefCell::new(CursesUI::new(5));
 
-    let mut game = Game::new(&ui);
+    let mut game = Game::new(&curses_ui);
 
     let mut deck = Deck::new();
     loop {
@@ -168,16 +170,21 @@ fn main() {
         deck.shuffle();
         game.play(&deck);
 
+        /*
         let ui = ui.borrow();
         println!("Score total: You: {}", ui.player_score);
         println!("        Computer: {}", ui.cpu_score);
         print!("Play again? [y/n] ");
         io::stdout().flush().unwrap();
+        */
 
+        /*
         let mut line = String::new();
         io::stdin().read_line(&mut line).unwrap();
         if !line.to_lowercase().starts_with("y") {
             break;
         }
+        */
+        break;
     }
 }
