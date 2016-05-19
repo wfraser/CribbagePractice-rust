@@ -13,7 +13,7 @@ pub struct CursesUI {
 }
 
 const CARD_HEIGHT: usize = 11;
-const CARD_WIDTH: usize = 14;
+const CARD_WIDTH: usize = 11;
 
 impl CursesUI {
     #[cfg(windows)]
@@ -71,118 +71,116 @@ impl CursesUI {
             n => format!("{}", n),
         };
 
-        writeln!(&mut out, " ----------- ").unwrap();
-        writeln!(&mut out, "| {: <2}        |", id).unwrap();
+        write!(&mut out, "\n {: <2}\n", id).unwrap();
 
         match card.number {
-            1 =>    writeln!(&mut out, concat!("|           |\n",
-                                               "|           |\n",
-                                               "|           |\n",
-                                               "|     X     |\n",
-                                               "|           |\n",
-                                               "|           |\n",
-                                               "|           |")).unwrap(),
+            1 =>    write!(&mut out, concat!("           ",
+                                             "           ",
+                                             "           ",
+                                             "     X     ",
+                                             "           ",
+                                             "           ",
+                                             "           ")).unwrap(),
 
-            2 =>    writeln!(&mut out, concat!("|           |\n",
-                                               "|     X     |\n",
-                                               "|           |\n",
-                                               "|           |\n",
-                                               "|           |\n",
-                                               "|     X     |\n",
-                                               "|           |")).unwrap(),
+            2 =>    write!(&mut out, concat!("           ",
+                                             "     X     ",
+                                             "           ",
+                                             "           ",
+                                             "           ",
+                                             "     X     ",
+                                             "           ")).unwrap(),
 
-            3 =>    writeln!(&mut out, concat!("|           |\n",
-                                               "|     X     |\n",
-                                               "|           |\n",
-                                               "|     X     |\n",
-                                               "|           |\n",
-                                               "|     X     |\n",
-                                               "|           |")).unwrap(),
+            3 =>    write!(&mut out, concat!("           ",
+                                             "     X     ",
+                                             "           ",
+                                             "     X     ",
+                                             "           ",
+                                             "     X     ",
+                                             "           ")).unwrap(),
 
-            4 =>    writeln!(&mut out, concat!("|           |\n",
-                                               "|   X   X   |\n",
-                                               "|           |\n",
-                                               "|           |\n",
-                                               "|           |\n",
-                                               "|   X   X   |\n",
-                                               "|           |")).unwrap(),
+            4 =>    write!(&mut out, concat!("           ",
+                                             "   X   X   ",
+                                             "           ",
+                                             "           ",
+                                             "           ",
+                                             "   X   X   ",
+                                             "           ")).unwrap(),
 
-            5 =>    writeln!(&mut out, concat!("|           |\n",
-                                               "|   X   X   |\n",
-                                               "|           |\n",
-                                               "|     X     |\n",
-                                               "|           |\n",
-                                               "|   X   X   |\n",
-                                               "|           |")).unwrap(),
+            5 =>    write!(&mut out, concat!("           ",
+                                             "   X   X   ",
+                                             "           ",
+                                             "     X     ",
+                                             "           ",
+                                             "   X   X   ",
+                                             "           ")).unwrap(),
 
-            6 =>    writeln!(&mut out, concat!("|           |\n",
-                                               "|   X   X   |\n",
-                                               "|           |\n",
-                                               "|   X   X   |\n",
-                                               "|           |\n",
-                                               "|   X   X   |\n",
-                                               "|           |")).unwrap(),
+            6 =>    write!(&mut out, concat!("           ",
+                                             "   X   X   ",
+                                             "           ",
+                                             "   X   X   ",
+                                             "           ",
+                                             "   X   X   ",
+                                             "           ")).unwrap(),
 
-            7 =>    writeln!(&mut out, concat!("|           |\n",
-                                               "|   X   X   |\n",
-                                               "|     X     |\n",
-                                               "|   X   X   |\n",
-                                               "|           |\n",
-                                               "|   X   X   |\n",
-                                               "|           |")).unwrap(),
+            7 =>    write!(&mut out, concat!("           ",
+                                             "   X   X   ",
+                                             "     X     ",
+                                             "   X   X   ",
+                                             "           ",
+                                             "   X   X   ",
+                                             "           ")).unwrap(),
 
-            8 =>    writeln!(&mut out, concat!("|           |\n",
-                                               "|   X   X   |\n",
-                                               "|     X     |\n",
-                                               "|   X   X   |\n",
-                                               "|     X     |\n",
-                                               "|   X   X   |\n",
-                                               "|           |")).unwrap(),
+            8 =>    write!(&mut out, concat!("           ",
+                                             "   X   X   ",
+                                             "     X     ",
+                                             "   X   X   ",
+                                             "     X     ",
+                                             "   X   X   ",
+                                             "           ")).unwrap(),
 
-            9 =>    writeln!(&mut out, concat!("|   X   X   |\n",
-                                               "|           |\n",
-                                               "|   X   X   |\n",
-                                               "|     X     |\n",
-                                               "|   X   X   |\n",
-                                               "|           |\n",
-                                               "|   X   X   |")).unwrap(),
+            9 =>    write!(&mut out, concat!("   X   X   ",
+                                             "           ",
+                                             "   X   X   ",
+                                             "     X     ",
+                                             "   X   X   ",
+                                             "           ",
+                                             "   X   X   ")).unwrap(),
 
-            10 =>   writeln!(&mut out, concat!("|   X   X   |\n",
-                                               "|     X     |\n",
-                                               "|   X   X   |\n",
-                                               "|           |\n",
-                                               "|   X   X   |\n",
-                                               "|     X     |\n",
-                                               "|   X   X   |")).unwrap(),
+            10 =>   write!(&mut out, concat!("   X   X   ",
+                                             "     X     ",
+                                             "   X   X   ",
+                                             "           ",
+                                             "   X   X   ",
+                                             "     X     ",
+                                             "   X   X   ")).unwrap(),
 
-            11 =>   writeln!(&mut out, concat!("|      XXX  |\n",
-                                               "|       XX  |\n",
-                                               "|       XX  |\n",
-                                               "|       XX  |\n",
-                                               "|       XX  |\n",
-                                               "|  XX   XX  |\n",
-                                               "|  XXXXXXX  |")).unwrap(),
+            11 =>   write!(&mut out, concat!("      XXX  ",
+                                             "       XX  ",
+                                             "       XX  ",
+                                             "       XX  ",
+                                             "       XX  ",
+                                             "  XX   XX  ",
+                                             "  XXXXXXX  ")).unwrap(),
 
-            12 =>   writeln!(&mut out, concat!("|  XXXXXXX  |\n",
-                                               "| XX     XX |\n",
-                                               "| XX     XX |\n",
-                                               "| XX     XX |\n",
-                                               "| XX  XX XX |\n",
-                                               "| XX   XXXX |\n",
-                                               "|  XXXXXXX  |")).unwrap(),
+            12 =>   write!(&mut out, concat!("  XXXXXXX  ",
+                                             " XX     XX ",
+                                             " XX     XX ",
+                                             " XX     XX ",
+                                             " XX  XX XX ",
+                                             " XX   XXXX ",
+                                             "  XXXXXXX  ")).unwrap(),
 
-            13 =>   writeln!(&mut out, concat!("|  XX   XX  |\n",
-                                               "|  XX  XX   |\n",
-                                               "|  XX XX    |\n",
-                                               "|  XXX      |\n",
-                                               "|  XX XX    |\n",
-                                               "|  XX  XX   |\n",
-                                               "|  XX   XX  |")).unwrap(),
+            13 =>   write!(&mut out, concat!("  XX   XX  ",
+                                             "  XX  XX   ",
+                                             "  XX XX    ",
+                                             "  XXX      ",
+                                             "  XX XX    ",
+                                             "  XX  XX   ",
+                                             "  XX   XX  ")).unwrap(),
             _ => unreachable!(),
         };
 
-        writeln!(&mut out, "|        {: >2} |", id).unwrap();
-        writeln!(&mut out, " ----------- ").unwrap();
+        write!(&mut out, "        {: >2}", id).unwrap();
 
         let suit = match card.suit {
             Suit::Spades    => "♠",
@@ -204,7 +202,8 @@ impl UserInterface for CursesUI {
     fn display_hand(&mut self, hand: &Hand) {
         for (i, card) in hand.cards.iter().enumerate() {
             let rendered = Self::render_card(card);
-            self.card_windows.get_mut(i).unwrap().addstr(&rendered);
+            self.card_windows[i].addstr(&rendered);
+            self.card_windows[i].draw_box('|', '-');
         }
     }
 
