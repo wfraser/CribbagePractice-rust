@@ -17,7 +17,7 @@ const CARD_WIDTH: usize = 11;
 
 impl CursesUI {
     #[cfg(windows)]
-    fn hide_win32_console() {
+    fn platform_specific_init() {
         // HACK HACK HACK
         // Until Cargo supports specifying the win32 subsystem option to the linker, the program
         // will always be built as a console program, so we have to do this dumb hack to get rid
@@ -27,16 +27,16 @@ impl CursesUI {
         unsafe { kernel32::FreeConsole(); }
     }
 
-    #[cfg(not(windows))]
-    fn hide_win32_console() {
-    }
-
-    pub fn new(hand_size: usize) -> CursesUI {
+    #[cfg(unix)]
+    fn platform_specific_init() {
+        // Assuming the environment is reasonably modern, this should allow outputting UTF-8 text.
         extern crate libc;
         use std::mem;
         unsafe { libc::setlocale(libc::LC_ALL, mem::transmute(b"\0")) };
+    }
 
-        Self::hide_win32_console();
+    pub fn new(hand_size: usize) -> CursesUI {
+        Self::platform_specific_init();
         let main_window = initscr();
 
         curs_set(0); // hide the cursor
