@@ -15,7 +15,7 @@ pub enum Suit {
     Diamonds,
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone)]
 pub struct Card {
     pub suit: Suit,
     pub number: i8,
