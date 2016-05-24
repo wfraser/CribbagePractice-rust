@@ -1,11 +1,10 @@
 use std::fmt::Write;
 
-use pancurses::*;
-
 use super::card::{Card, Suit};
 use super::combo::Combo;
 use super::hand::Hand;
 use super::ui::{UserInterface, Guess};
+use super::pancurses_ext::pancurses::*;
 
 pub struct CursesUI {
     main_window: Window,
@@ -50,7 +49,7 @@ impl CursesUI {
         main_window.nodelay(false); // use blocking getch
         main_window.keypad(true); // enable getting arrow keys and other special keys
         cbreak(); // raw input
-        noecho();
+        noecho(); // hide user input
 
         init_pair(WHITE_ON_BLACK, COLOR_WHITE, COLOR_BLACK);
         init_pair(RED_ON_BLACK, COLOR_RED, COLOR_BLACK);
@@ -304,7 +303,7 @@ impl UserInterface for CursesUI {
     fn get_guess(&mut self, hand: &Hand) -> Option<Guess> {
 
         self.clear();
-        
+
         self.text_window.printw("Use arrow keys to select cards. Press enter to mark selected card as part of a combo.\n");
         self.text_window.refresh();
 
@@ -326,7 +325,7 @@ impl UserInterface for CursesUI {
                 } else {
                     &self.card_windows[card_idx as usize]
                 };
-                
+
                 win.draw_box('|', '-');
                 win.refresh();
             }
@@ -343,7 +342,6 @@ impl UserInterface for CursesUI {
                         if let Some(pos) = cards.iter().position(|x| x == card) {
                             cards.remove(pos);
                             arrow_win.bkgd(' '.to_chtype());
-                            self.text_window.printw("erase ");
                         } else {
                             cards.push(card.clone());
                             arrow_win.bkgd('^'.to_chtype());
@@ -378,6 +376,28 @@ impl UserInterface for CursesUI {
         if cards.is_empty() {
             None
         } else {
+            let text = "Score? ";
+            let input_len = 2;
+            let border = 2;
+            let w = text.len() as i32 + border + input_len;
+            let h = 1 + border;
+            let (y, x) = match self.main_window.get_max_yx() {
+                (ty, tx) => (ty / 2 - h, tx / 2 - w),
+            };
+
+            let dialog = self.main_window.derwin(h, w, y, x).unwrap();
+            dialog.erase();
+            dialog.draw_box('|', '-');
+            dialog.mvaddstr(border / 2, border / 2, text);
+            dialog.refresh();
+
+            echo();
+            let input = mvwgetnstr(&dialog, border / 2, w - border / 2 - input_len, input_len as usize);
+            panic!("{:?}", input);  // TODO
+
+            noecho();
+            delwin(dialog);
+
             Some(Guess {
                 cards: cards,
                 score: 0,

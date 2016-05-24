@@ -7,7 +7,15 @@ use std::cell::RefCell;
 use std::io::{self, Write};
 use std::str::FromStr;
 
+#[cfg(windows)]
+extern crate pdcurses;
+
+#[cfg(unix)]
+extern crate ncurses;
+
 extern crate pancurses;
+mod pancurses_ext;
+
 extern crate rand;
 
 mod card;
