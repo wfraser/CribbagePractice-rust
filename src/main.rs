@@ -17,7 +17,7 @@ mod hand;
 mod ui;
 mod util;
 
-use card::Card;
+use card::{Card, CardParseError};
 use combo::Combo;
 use deck::Deck;
 use game::Game;
@@ -148,7 +148,61 @@ impl UserInterface for ConsoleUI {
     }
 }
 
+fn parse_cards(input: &str) -> Result<Vec<Card>, CardParseError> {
+    let mut cards: Vec<Card> = Vec::new();
+    for x in input.trim().split(' ') {
+        match Card::from_str(x) {
+            Ok(card) => {
+                cards.push(card);
+            },
+            Err(e) => {
+                return Err(e);
+            }
+        }
+    }
+
+    return Ok(cards);
+}
+
+fn print_all_combos(input: &str) {
+    match parse_cards(input) {
+        Ok(ref cards) => {
+            let hand = Hand::new(cards);
+            for combo in hand.find_all_combos() {
+                for card in combo.cards {
+                    print!("{} ", card);
+                }
+                println!("- {} for {} points", combo.text, combo.score);
+            }
+        },
+        Err(e) => {
+            println!("{}", e);
+        }
+    }
+}
+
 fn main() {
+    let args: Vec<String> = ::std::env::args().collect();
+    if args.len() > 1 {
+        if &args[1] == "-h" || &args[1] == "--help" {
+            println!("usage: {} [cards]
+    With no arguments, play a game.
+    Or, give a set of cards, and the program will list all valid combos for
+        those cards.
+    Cards are given as the value, as the number of the card or A, J, Q, K (for
+        ace, jack, queen, king); and the suit H, D, S, C (for hearts, diamonds,
+        spades, clubs).", args[0]);
+        } else {
+            let mut cards = String::new();
+            for arg in args.iter().skip(1) {
+                cards.push_str(arg);
+                cards.push_str(" ");
+            }
+            print_all_combos(&cards);
+        }
+        return;
+    }
+
     let ui = RefCell::new(ConsoleUI {
         player_score: 0,
         cpu_score: 0
