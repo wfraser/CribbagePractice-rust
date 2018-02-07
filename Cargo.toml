@@ -6,11 +6,11 @@ authors = ["William R. Fraser <wfraser@codewise.org>"]
 [dependencies]
 #pancurses = { git = "https://github.com/ihalila/pancurses" }
 pancurses = "0.3"
-rand = "0.3"
+rand = "0.4"
 libc = "*"
 
 [target.x86_64-unknown-linux-gnu.dependencies]
-ncurses = "5.80"
+ncurses = "=5.80"
 
 [target.x86_64-pc-windows-msvc.dependencies]
 kernel32-sys = "*"
