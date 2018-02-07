@@ -18,7 +18,7 @@ impl<'a> PartialEq<[&'a Card]> for Combo<'a> {
             return false;
         }
 
-        for card in self.cards.iter() {
+        for card in &self.cards {
             if !other.iter().any(|x| x == card) {
                 return false;
             }
@@ -33,7 +33,7 @@ impl<'a> PartialEq<[Card]> for Combo<'a> {
             return false;
         }
 
-        for card in self.cards.iter() {
+        for card in &self.cards {
             if !other.iter().any(|x| &x == card) {
                 return false;
             }

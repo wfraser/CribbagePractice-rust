@@ -161,7 +161,7 @@ fn parse_cards(input: &str) -> Result<Vec<Card>, CardParseError> {
         }
     }
 
-    return Ok(cards);
+    Ok(cards)
 }
 
 fn print_all_combos(input: &str) {
@@ -212,7 +212,7 @@ fn main() {
 
     let mut deck = Deck::new();
     loop {
-        println!("");
+        println!();
 
         deck.shuffle();
         game.play(&deck);
@@ -225,7 +225,7 @@ fn main() {
 
         let mut line = String::new();
         io::stdin().read_line(&mut line).unwrap();
-        if !line.to_lowercase().starts_with("y") {
+        if !line.to_lowercase().starts_with('y') {
             break;
         }
     }

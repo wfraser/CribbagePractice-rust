@@ -29,7 +29,7 @@ impl<'a> Hand<'a> {
                 combos.push(Combo {
                     cards: set.clone(),
                     score: 2,
-                    text: format!("fifteen"),
+                    text: "fifteen".to_owned(),
                 });
             }
         }
@@ -95,7 +95,7 @@ impl<'a> Hand<'a> {
         // There's probably some more clever way to do this but whatever.
         let mut candidates: Vec<Vec<&'a Card>> = vec![];
         let mut prev = -1i8;
-        for (number, group) in by_number.iter() {
+        for (number, group) in &by_number {
             if prev != -1 && *number != prev + 1 {
                 // numbers not adjacent; reset.
                 if candidates.len() >= 3 {

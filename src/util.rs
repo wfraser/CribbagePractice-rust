@@ -28,7 +28,7 @@ impl<'a, T> Iterator for PowerSet<'a, T> {
     }
 }
 
-pub fn power_set<'a, T>(items: &'a [T]) -> PowerSet<'a, T> {
+pub fn power_set<T>(items: &[T]) -> PowerSet<T> {
     // This method uses one bit per item, plus one to signal that it's done.
     // Of course, you'll probably run out of patience long before you run out of bits. :)
     assert!(items.len() < 64);
