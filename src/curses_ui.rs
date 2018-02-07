@@ -333,6 +333,13 @@ impl UserInterface for CursesUI {
             match input {
                 Some(Input::KeyLeft) => { card_idx -= 1; },
                 Some(Input::KeyRight) => { card_idx += 1; },
+                Some(Input::KeyDown) | Some(Input::KeyUp) => {
+                    if card_idx == -1 {
+                        card_idx = 0;
+                    } else {
+                        card_idx = -1;
+                    }
+                },
                 Some(Input::Character('\n')) => {
                     if card_idx == -1 {
                         break;
@@ -349,6 +356,7 @@ impl UserInterface for CursesUI {
                         arrow_win.refresh();
                     }
                 },
+                Some(Input::Character('q')) => break,
                 _ => (),
             };
             if card_idx == -2 {
