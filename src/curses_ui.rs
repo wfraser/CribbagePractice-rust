@@ -270,38 +270,53 @@ impl UserInterface for CursesUI {
 
     fn display_missed_combos(&mut self, combos: &[Combo]) {
         // TODO
+        endwin();
+        unimplemented!("you missed some: {:?}", combos);
     }
 
     fn display_win_message(&mut self, score: i32) {
         // TODO
+        endwin();
+        unimplemented!("you win. score: {}", score);
     }
 
     fn display_lose_message(&mut self, score: i32) {
         // TODO
+        endwin();
+        unimplemented!("you lose. score: {}", score);
     }
 
     fn display_bad_guess_wrong_score(&mut self, actual_combo: &Combo) {
         // TODO
+        endwin();
+        unimplemented!("bad guess, wrong score. actual combo = {:?}", actual_combo);
     }
 
     fn display_bad_guess_invalid_combo(&mut self) {
         // TODO
+        endwin();
+        unimplemented!("bad guess, invalid combo.");
     }
 
     fn display_correct_guess(&mut self, combo: &Combo) {
         // TODO
+        endwin();
+        unimplemented!("correct!");
     }
 
     fn add_score_player(&mut self, score: i32) {
         // TODO
+        endwin();
+        unimplemented!("add score to player: {}", score);
     }
 
     fn add_score_cpu(&mut self, score: i32) {
         // TODO
+        endwin();
+        unimplemented!("add score to cpu: {}", score);
     }
 
     fn get_guess(&mut self, hand: &Hand) -> Option<Guess> {
-
         self.clear();
 
         self.text_window.printw("Use arrow keys to select cards. Press enter to mark selected card as part of a combo.\n");
@@ -384,32 +399,53 @@ impl UserInterface for CursesUI {
         if cards.is_empty() {
             None
         } else {
-            let text = "Score? ";
-            let input_len = 2;
-            let border = 2;
-            let w = text.len() as i32 + border + input_len;
-            let h = 1 + border;
-            let (y, x) = match self.main_window.get_max_yx() {
-                (ty, tx) => (ty / 2 - h, tx / 2 - w),
-            };
+            loop {
+                let text = "Score? ";
+                let input_len = 2;
+                let border = 2;
+                let w = text.len() as i32 + border + input_len;
+                let h = 1 + border;
+                let (y, x) = match self.main_window.get_max_yx() {
+                    (ty, tx) => (ty / 2 - h / 2, tx / 2 - w / 2),
+                };
 
-            let dialog = self.main_window.derwin(h, w, y, x).unwrap();
-            dialog.erase();
-            dialog.draw_box('|', '-');
-            dialog.mvaddstr(border / 2, border / 2, text);
-            dialog.refresh();
+                let dialog = self.main_window.derwin(h, w, y, x).unwrap();
+                dialog.erase();
+                dialog.draw_box('|', '-');
+                dialog.mvaddstr(border / 2, border / 2, text);
+                dialog.refresh();
 
-            echo();
-            let input = mvwgetnstr(&dialog, border / 2, w - border / 2 - input_len, input_len as usize);
-            panic!("{:?}", input);  // TODO
+                echo();
+                let mut input = mvwgetnstr(&dialog, border / 2, w - border / 2 - input_len, input_len as usize);
+                while input.ends_with('\0') {
+                    input.pop();
+                }
 
-            noecho();
-            delwin(dialog);
+                noecho();
+                delwin(dialog);
 
-            Some(Guess {
-                cards: cards,
-                score: 0,
-            })
+                match input.trim().parse() {
+                    Ok(score) => {
+                        return Some(Guess { cards, score });
+                    },
+                    Err(_) => {
+                        let text = "You're supposed to type a number.";
+                        let w = text.len() as i32 + 2;
+                        let h = 3;
+                        let (y, x) = match self.main_window.get_max_yx() {
+                            (ty, tx) => (ty / 2 - h / 2, tx / 2 - w / 2),
+                        };
+                        let dialog = self.main_window.derwin(h, w, y, x).unwrap();
+                        dialog.erase();
+                        dialog.draw_box('|', '-');
+                        dialog.mvaddstr(1, 1, text);
+                        dialog.refresh();
+                        mvwgetnstr(&dialog, 1, w - 1, 1);
+                        dialog.erase();
+                        delwin(dialog);
+                    }
+                }
+            }
         }
     }
 }
