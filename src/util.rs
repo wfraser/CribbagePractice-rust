@@ -34,7 +34,7 @@ pub fn power_set<T>(items: &[T]) -> PowerSet<T> {
     assert!(items.len() < 64);
 
     PowerSet {
-        items: items,
+        items,
         current: 0,
     }
 }
@@ -87,7 +87,7 @@ pub fn binomial_coefficient(n: i8, m: i8) -> i8 {
     let mut b = 1;
     let mut c = 1;
     let mut total = 1;
-    for i in 2 .. n + 1 {
+    for i in 2 ..= n {
         total *= i;
         if i == n {
             a = total;

@@ -88,7 +88,10 @@ impl FromStr for Card {
 
     /// Parses strings of the form "<number><suit>" where "<number>" is 1-13 or A, J, Q, K; and "<suit>" is S, C, D, or H.
     fn from_str(s: &str) -> Result<Card, CardParseError> {
-        let (suit_byte_index, suit_char) = try!(s.char_indices().last().ok_or_else(|| CardParseError::new(format!("invalid card {:?}", s))));
+        let (suit_byte_index, suit_char) =
+            s.char_indices()
+                .last()
+                .ok_or_else(|| CardParseError::new(format!("invalid card {:?}", s)))?;
         let num_str = &s[0..suit_byte_index];
 
         let suit: Suit;
@@ -100,21 +103,25 @@ impl FromStr for Card {
             _ => return Err(CardParseError::new(format!("invalid card suit: {:?}", suit_char))),
         }
 
-        let num: i8;
-        match num_str {
-            "a" | "A" => num = 1,
-            "j" | "J" => num = 11,
-            "q" | "Q" => num = 12,
-            "k" | "K" => num = 13,
-            _ => num = try!(num_str.parse().map_err(|e| CardParseError::new(format!("invalid card number: {} {:?}", e, num_str))))
-        }
+        let number: i8 = match num_str {
+            "a" | "A" => 1,
+            "j" | "J" => 11,
+            "q" | "Q" => 12,
+            "k" | "K" => 13,
+            _ => {
+                num_str.parse()
+                    .map_err(|e| {
+                        CardParseError::new(format!("invalid card number: {} {:?}", e, num_str))
+                    })?
+            }
+        };
 
-        if num < 1 || num > 13 {
+        if number < 1 || number > 13 {
             Err(CardParseError::new(format!("invalid card: number {:?} is out of range", num_str)))
         } else {
             Ok(Card {
-                suit: suit,
-                number: num,
+                suit,
+                number,
             })
         }
     }

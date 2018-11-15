@@ -19,7 +19,7 @@ pub struct Hand<'a> {
 impl<'a> Hand<'a> {
     pub fn new(cards: &'a [Card]) -> Hand<'a> {
         Hand {
-            cards: cards,
+            cards,
         }
     }
 
@@ -77,7 +77,7 @@ impl<'a> Hand<'a> {
                 text: format!("run of {}", cards.len()),
             });
 
-            for i in 0 .. cards.len() + 1 {
+            for i in 0 ..= cards.len() {
                 if i == cards.len() {
                     return;
                 } else if indices[i] == cards[i].len() - 1 {
@@ -125,7 +125,7 @@ impl<'a> Hand<'a> {
 impl<'a> Display for Hand<'a> {
     fn fmt(&self, fmt: &mut Formatter) -> fmt::Result {
         for (idx, card) in self.cards.iter().enumerate() {
-            try!((card as &Display).fmt(fmt));
+            card.fmt(fmt)?;
             if idx < self.cards.len() - 1 {
                 fmt.write_str(" ").unwrap();
             }

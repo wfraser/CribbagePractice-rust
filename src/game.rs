@@ -37,7 +37,7 @@ impl<'a, UI: UserInterface> Game<'a, UI> {
                     let combo = &combos[index];
                     if combo.score == guess.score {
                         ui.display_correct_guess(combo);
-                        player_score += combo.score as i32;
+                        player_score += i32::from(combo.score);
                     } else {
                         ui.display_bad_guess_wrong_score(combo);
                         ui.add_score_cpu(SCORE_BAD_GUESS_WRONG_SCORE);
@@ -55,7 +55,7 @@ impl<'a, UI: UserInterface> Game<'a, UI> {
             ui.add_score_player(player_score);
         } else {
             ui.display_missed_combos(&combos);
-            let score = combos.iter().fold(0i32, |score, combo| score + combo.score as i32);
+            let score = combos.iter().fold(0i32, |score, combo| score + i32::from(combo.score));
             ui.display_lose_message(score);
             ui.add_score_cpu(score);
         }
