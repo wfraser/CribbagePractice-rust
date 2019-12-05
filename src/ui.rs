@@ -3,9 +3,9 @@
 // Copyright (c) 2016 by William R. Fraser
 //
 
-use super::card::Card;
-use super::combo::Combo;
-use super::hand::Hand;
+use crate::card::Card;
+use crate::combo::Combo;
+use crate::hand::Hand;
 
 pub struct Guess {
     pub cards: Vec<Card>,

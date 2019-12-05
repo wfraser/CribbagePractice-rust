@@ -6,8 +6,8 @@
 use rand;
 use rand::seq::SliceRandom;
 
-use super::card::{Card, Suit};
-use super::hand::Hand;
+use crate::card::{Card, Suit};
+use crate::hand::Hand;
 
 pub struct Deck {
     cards: Vec<Card>,

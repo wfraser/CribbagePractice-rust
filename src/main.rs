@@ -7,8 +7,6 @@ use std::cell::RefCell;
 use std::io::{self, Write};
 use std::str::FromStr;
 
-extern crate rand;
-
 mod card;
 mod combo;
 mod deck;
@@ -17,12 +15,12 @@ mod hand;
 mod ui;
 mod util;
 
-use card::{Card, CardParseError};
-use combo::Combo;
-use deck::Deck;
-use game::Game;
-use hand::Hand;
-use ui::{UserInterface, Guess};
+use crate::card::{Card, CardParseError};
+use crate::combo::Combo;
+use crate::deck::Deck;
+use crate::game::Game;
+use crate::hand::Hand;
+use crate::ui::{UserInterface, Guess};
 
 struct ConsoleUI {
     pub player_score: i32,

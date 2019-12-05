@@ -5,9 +5,9 @@
 
 use std::fmt::{self, Display, Formatter};
 
-use super::card::Card;
-use super::combo::Combo;
-use super::util;
+use crate::card::Card;
+use crate::combo::Combo;
+use crate::util;
 
 #[cfg(test)]
 use super::card::Suit;

@@ -3,7 +3,7 @@
 // Copyright (c) 2016 by William R. Fraser
 //
 
-use super::card::Card;
+use crate::card::Card;
 
 #[derive(Debug)]
 pub struct Combo<'a> {

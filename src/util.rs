@@ -77,6 +77,7 @@ fn test_group_by() {
     assert!(by_tens.get(&3).is_none());
 }
 
+#[allow(clippy::many_single_char_names)]
 pub fn binomial_coefficient(n: i8, m: i8) -> i8 {
     if n < m {
         return 0;
