@@ -3,7 +3,6 @@
 // Copyright (c) 2016 by William R. Fraser
 //
 
-use rand;
 use rand::seq::SliceRandom;
 
 use crate::card::{Card, Suit};

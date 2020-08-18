@@ -33,7 +33,7 @@ impl Card {
 }
 
 impl Display for Card {
-    fn fmt(&self, fmt: &mut Formatter) -> fmt::Result {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> fmt::Result {
         let mut out = String::new();
 
         match self.number {
@@ -72,16 +72,12 @@ impl CardParseError {
 }
 
 impl Display for CardParseError {
-    fn fmt(&self, fmt: &mut Formatter) -> fmt::Result {
-        fmt.write_str(self.description())
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> fmt::Result {
+        fmt.write_str(&self.message)
     }
 }
 
-impl Error for CardParseError {
-    fn description(&self) -> &str {
-        &self.message
-    }
-}
+impl Error for CardParseError {}
 
 impl FromStr for Card {
     type Err = CardParseError;

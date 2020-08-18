@@ -1,3 +1,5 @@
+#![deny(rust_2018_idioms)]
+
 // Main program entry point and user interface functions.
 //
 // Copyright (c) 2016 by William R. Fraser
@@ -28,11 +30,11 @@ struct ConsoleUI {
 }
 
 impl UserInterface for ConsoleUI {
-    fn display_hand(&mut self, hand: &Hand) {
+    fn display_hand(&mut self, hand: &Hand<'_>) {
         println!("{}", hand);
     }
 
-    fn display_missed_combos(&mut self, combos: &[Combo]) {
+    fn display_missed_combos(&mut self, combos: &[Combo<'_>]) {
         println!("You missed some:");
         for combo in combos {
             for (idx, card) in combo.cards.iter().enumerate() {
@@ -53,7 +55,7 @@ impl UserInterface for ConsoleUI {
         println!("Computer gets muggins of {} points.", score);
     }
 
-    fn display_bad_guess_wrong_score(&mut self, actual_combo: &Combo) {
+    fn display_bad_guess_wrong_score(&mut self, actual_combo: &Combo<'_>) {
         println!("Nope, score is {} for a {}.", actual_combo.score, actual_combo.text);
     }
 
@@ -61,7 +63,7 @@ impl UserInterface for ConsoleUI {
         println!("Nope! That's nothing.");
     }
 
-    fn display_correct_guess(&mut self, combo: &Combo) {
+    fn display_correct_guess(&mut self, combo: &Combo<'_>) {
         println!("Correct! {} points for a {}.", combo.score, combo.text);
     }
 
@@ -73,7 +75,7 @@ impl UserInterface for ConsoleUI {
         self.cpu_score += score;
     }
 
-    fn get_guess(&mut self, hand: &Hand) -> Option<Guess> {
+    fn get_guess(&mut self, hand: &Hand<'_>) -> Option<Guess> {
         let mut guess = Guess {
             cards: vec![],
             score: 0,

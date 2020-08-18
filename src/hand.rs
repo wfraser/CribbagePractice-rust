@@ -112,8 +112,8 @@ impl<'a> Hand<'a> {
         }
     }
 
-    pub fn find_all_combos(&self) -> Vec<Combo> {
-        let mut combos: Vec<Combo> = vec![];
+    pub fn find_all_combos(&self) -> Vec<Combo<'_>> {
+        let mut combos: Vec<Combo<'_>> = vec![];
         self.find_fifteens(&mut combos);
         self.find_n_of_kind(&mut combos);
         self.find_flush(&mut combos);
@@ -123,7 +123,7 @@ impl<'a> Hand<'a> {
 }
 
 impl<'a> Display for Hand<'a> {
-    fn fmt(&self, fmt: &mut Formatter) -> fmt::Result {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> fmt::Result {
         for (idx, card) in self.cards.iter().enumerate() {
             card.fmt(fmt)?;
             if idx < self.cards.len() - 1 {

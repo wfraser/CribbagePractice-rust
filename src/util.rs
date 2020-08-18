@@ -5,7 +5,7 @@
 
 use std::collections::btree_map::{BTreeMap, Entry};
 
-pub struct PowerSet<'a, T: 'a> {
+pub struct PowerSet<'a, T> {
     items: &'a [T],
     current: u64,
 }
@@ -28,7 +28,7 @@ impl<'a, T> Iterator for PowerSet<'a, T> {
     }
 }
 
-pub fn power_set<T>(items: &[T]) -> PowerSet<T> {
+pub fn power_set<T>(items: &[T]) -> PowerSet<'_, T> {
     // This method uses one bit per item, plus one to signal that it's done.
     // Of course, you'll probably run out of patience long before you run out of bits. :)
     assert!(items.len() < 64);

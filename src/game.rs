@@ -11,7 +11,7 @@ use crate::ui::UserInterface;
 const SCORE_BAD_GUESS_WRONG_SCORE: i32 = 1;
 const SCORE_BAD_GUESS_INVALID_COMBO: i32 = 2;
 
-pub struct Game<'a, UI: UserInterface + 'a> {
+pub struct Game<'a, UI: UserInterface> {
     ui: &'a RefCell<UI>,
 }
 
